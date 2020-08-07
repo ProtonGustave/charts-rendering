@@ -1,7 +1,16 @@
 {
   "name": "charts_rendering",
   "version": "1.0.0",
-  "main": "index.js",
+  "author": "Sergey Kazantsev",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
   "license": "MIT",
   "dependencies": {
     "chart.js": "^2.9.3",
@@ -9,6 +18,8 @@
     "puppeteer": "^5.2.1"
   },
   "devDependencies": {
+    "@types/chart.js": "^2.9.23",
+    "@types/puppeteer": "^3.0.1",
     "microbundle": "^0.12.3"
   }
 }
