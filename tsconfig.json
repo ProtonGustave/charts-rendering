@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
-    "module": "commonjs",
+    "module": "ES2015",
     "target": "es2019",
     "declaration": true,
     "strict": true,
