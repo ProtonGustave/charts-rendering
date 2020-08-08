@@ -10,6 +10,8 @@ import {
   JSONObject,
   EvaluateFn
 } from 'puppeteer';
+import setValue from 'set-value';
+import getValue from 'get-value';
 
 const modulePath = path.dirname(require.resolve('highcharts'));
 
@@ -26,7 +28,7 @@ async function init(page: Page) {
   });
   // create main element
   await page.setContent(`<div id="container"></div>`);
-  // disable animations globally
+  // disable features needed for interactive usage
   await page.evaluate(new AsyncFunction(`
     Highcharts.setOptions({
       plotOptions: {
@@ -43,6 +45,14 @@ async function render(page: Page, options: HighchartsRenderOptions) {
 
   if (containerElem === null) {
     throw new Error('No container element exists');
+  }
+
+  if (getValue(options.chart, 'chart.width') === undefined) {
+    setValue(options.chart, 'chart.width', options.width);
+  }
+
+  if (getValue(options.chart, 'chart.height') === undefined) {
+    setValue(options.chart, 'chart.height', options.height);
   }
 
   await page.evaluate(new AsyncFunction('chart', `

@@ -26,9 +26,12 @@ async function init(page: Page) {
   });
   // create main element
   await page.setContent(`<canvas id="container"></canvas>`);
-  // disable animations globally
+  // disable features needed for interactive usage
   await page.evaluate(new AsyncFunction(`
-    Object.assign(Chart.defaults.global.animation, { duration: 0 });
+    Object.assign(Chart.defaults.global, {
+      animation: false,
+      responsive: false,
+    });
   `) as EvaluateFn);
 }
 
@@ -39,10 +42,12 @@ async function render(page: Page, options: ChartjsRenderOptions) {
     throw new Error('No container element exists');
   }
 
-  await page.evaluate(new AsyncFunction('chart', `
+  await page.evaluate(new AsyncFunction('chart', 'width', 'height', `
     const ctx = document.getElementById('container');
-    var myChart = new Chart(ctx, chart);
-  `) as EvaluateFn, options.chart as JSONObject);
+    ctx.width = width;
+    ctx.height = height;
+    new Chart(ctx, chart);
+  `) as EvaluateFn, options.chart as JSONObject, options.width, options.height);
 
   await containerElem.screenshot({ 
     omitBackground: true,

@@ -16,8 +16,8 @@ export async function render(exporter: Exporter, options: RenderOptions|RenderOp
 
   const renderIteration = async (options: RenderOptions) => {
     await page.setViewport({
-      width: options.width || 1920,
-      height: options.height || 1080,
+      width: options.width + 200,
+      height: options.height + 200,
       deviceScaleFactor: 1,
     });
 

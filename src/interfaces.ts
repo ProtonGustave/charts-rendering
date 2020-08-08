@@ -1,8 +1,8 @@
 import { Page } from 'puppeteer';
 
 export interface RenderOptions {
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
   file: {
     path: string;
   };
