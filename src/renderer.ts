@@ -6,10 +6,10 @@ import {
 
 export async function render(exporter: Exporter, options: RenderOptions|RenderOptions[]) {
   const browser = await puppeteer.launch({
-    args: [
-      '--no-sandbox',
-    ],
-    headless: false,
+    // args: [
+    //   '--no-sandbox',
+    // ],
+    // headless: false,
     // devtools: true,
   });
   const page = await browser.newPage();
@@ -40,4 +40,6 @@ export async function render(exporter: Exporter, options: RenderOptions|RenderOp
   else {
     await renderIteration(options);
   }
+
+  await browser.close();
 }
