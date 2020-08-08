@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
+    "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
     "module": "commonjs",
+    "target": "es2019",
+    "declaration": true,
     "strict": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
@@ -12,5 +17,6 @@
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true
-  }
+  },
+  "lib": ["es2015"]
 }

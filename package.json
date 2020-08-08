@@ -1,30 +1,30 @@
 {
   "name": "charts-rendering",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Sergey Kazantsev",
-  "source": "src/index.ts",
   "main": "dist/index.js",
-  "module": "dist/index.module.js",
-  "unpkg": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch"
+    "build": "tsc",
+    "dev": "tsc -w"
   },
   "license": "MIT",
   "dependencies": {
-    "@types/get-value": "^3.0.1",
-    "@types/set-value": "^2.0.0",
     "chart.js": "^2.9.3",
     "get-value": "^3.0.1",
     "highcharts": "^8.1.2",
     "puppeteer": "^5.2.1",
+    "serialize-javascript": "^4.0.0",
     "set-value": "^3.0.2"
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.23",
+    "@types/get-value": "^3.0.1",
     "@types/puppeteer": "^3.0.1",
-    "microbundle": "^0.12.3"
+    "@types/serialize-javascript": "^4.0.0",
+    "@types/set-value": "^2.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^3.9.7"
   },
   "repository": {
     "type": "git",

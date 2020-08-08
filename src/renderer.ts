@@ -18,8 +18,8 @@ export async function render(exporter: Exporter, options: RenderOptions) {
 
   // globally init page
   await page.setViewport({
-    width: options.init.width + 200,
-    height: options.init.height + 200,
+    width: options.init.width,
+    height: options.init.height,
     deviceScaleFactor: 1,
   });
 

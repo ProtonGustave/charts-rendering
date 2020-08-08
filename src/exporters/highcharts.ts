@@ -14,6 +14,7 @@ import {
 } from 'puppeteer';
 import setValue from 'set-value';
 import getValue from 'get-value';
+import serialize from 'serialize-javascript';
 
 const modulePath = path.dirname(require.resolve('highcharts'));
 const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
@@ -42,15 +43,20 @@ async function init(page: Page) {
 }
 
 async function render(page: Page, options: HighchartsRenderOptions) {
-  const containerElem = await page.$('#container');
+  await page.evaluate(new AsyncFunction('serializedConfig', `
+    function deserialize(v) {
+      return eval('(' + v + ')');
+    }
+
+    const config = deserialize(serializedConfig);
+    Highcharts.chart('container', config);
+  `) as EvaluateFn, serialize(options.config));
+
+  const containerElem = await page.$('.highcharts-container');
 
   if (containerElem === null) {
     throw new Error('No container element exists');
   }
-
-  await page.evaluate(new AsyncFunction('chart', `
-    Highcharts.chart('container', chart);
-  `) as EvaluateFn, options.config as JSONObject);
 
   await containerElem.screenshot({ 
     omitBackground: true,
