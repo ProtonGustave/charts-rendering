@@ -45,7 +45,6 @@ async function render(page: Page, options: ChartjsRenderOptions, initOptions: In
   }
 
   await page.evaluate(new AsyncFunction('chart', 'width', 'height', `
-    console.log(numeral(123400041).format('$0[.]00a').toUpperCase());
     const ctx = document.getElementById('container');
     ctx.width = width;
     ctx.height = height;
