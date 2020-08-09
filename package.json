@@ -1,12 +1,18 @@
 {
   "name": "charts-rendering",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "author": "Sergey Kazantsev",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "rollup -c",
     "build": "rollup -c"
   },
+  "keywords": [
+    "render",
+    "chart",
+    "highcharts",
+    "puppeteer"
+  ],
   "license": "MIT",
   "dependencies": {
     "chart.js": "^2.9.3",

@@ -28,7 +28,8 @@ render(exporters.highcharts, {
       path: 'path/to/js/file',
     }],
   },
-  // you can specify one or more chart configs in order 
+  // You can specify more than one chart config for bunch rendering
+  // (with single Puppeteer instance)
   charts: [{
     file: {
       // where to save chart
