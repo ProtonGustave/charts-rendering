@@ -8,11 +8,8 @@ import {
 
 export async function render(exporter: Exporter, options: RenderOptions) {
   const browser = await puppeteer.launch({
-    // args: [
-    //   '--no-sandbox',
-    // ],
-    // headless: false,
-    // devtools: true,
+    headless: process.env.NODE_ENV === 'chartdev' ? false : true,
+    devtools: process.env.NODE_ENV === 'chartdev' ? true : false,
   });
   const page = await browser.newPage();
 
@@ -50,5 +47,7 @@ export async function render(exporter: Exporter, options: RenderOptions) {
     await renderIteration(options.charts);
   }
 
-  await browser.close();
+  if (process.env.NODE_ENV !== 'chartdev') {
+    await browser.close();
+  }
 }

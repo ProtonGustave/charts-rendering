@@ -16,7 +16,9 @@ import {
 const modulePath = path.dirname(require.resolve('chart.js'));
 
 export interface ChartjsRenderOptions extends ChartOptions {
-  config: Chart.ChartConfiguration,
+  config: Chart.ChartConfiguration;
+  chartWidth?: number;
+  chartHeight?: number;
 }
 
 const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
@@ -49,7 +51,10 @@ async function render(page: Page, options: ChartjsRenderOptions, initOptions: In
     ctx.width = width;
     ctx.height = height;
     new Chart(ctx, chart);
-  `) as EvaluateFn, options.config as JSONObject, initOptions.width, initOptions.height);
+  `) as EvaluateFn,
+    options.config as JSONObject,
+    options.chartWidth || initOptions.width,
+    options.chartHeight || initOptions.height);
 
   await containerElem.screenshot({ 
     omitBackground: true,

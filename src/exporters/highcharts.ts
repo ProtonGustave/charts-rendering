@@ -20,7 +20,7 @@ const modulePath = path.dirname(require.resolve('highcharts'));
 const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 
 export interface HighchartsRenderOptions extends ChartOptions {
-  config: Options,
+  config: Options;
 }
 
 // TODO: solve mangle issue more elegantly
