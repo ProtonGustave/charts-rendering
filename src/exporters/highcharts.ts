@@ -58,7 +58,7 @@ async function render(page: Page, options: HighchartsRenderOptions) {
     throw new Error('No container element exists');
   }
 
-  await containerElem.screenshot({ 
+  return await containerElem.screenshot({ 
     omitBackground: true,
     ...options.file,
   });
