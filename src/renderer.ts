@@ -10,6 +10,14 @@ export async function render(exporter: Exporter, options: RenderOptions) {
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV === 'chartdev' ? false : true,
     devtools: process.env.NODE_ENV === 'chartdev' ? true : false,
+    args: [
+      // Required for Docker version of Puppeteer
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      // This will write shared memory files into /tmp instead of /dev/shm,
+      // because Docker’s default for /dev/shm is 64MB
+      '--disable-dev-shm-usage'
+    ],
   });
   const page = await browser.newPage();
 
@@ -44,7 +52,7 @@ export async function render(exporter: Exporter, options: RenderOptions) {
     }
   }
   else {
-    await renderIteration(options.charts);
+    return await renderIteration(options.charts);
   }
 
   if (process.env.NODE_ENV !== 'chartdev') {
