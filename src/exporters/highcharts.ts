@@ -23,10 +23,16 @@ export interface HighchartsRenderOptions extends ChartOptions {
   config: Options;
 }
 
+export interface HighchartsInitOptions extends InitOptions {
+  highstock?: boolean;
+}
+
 // TODO: solve mangle issue more elegantly
-async function init(page: Page) {
+export async function init(page: Page, init: HighchartsInitOptions) {
   await page.addScriptTag({
-    path: modulePath + '/highcharts.js',
+    path: init.highstock === true
+      ? modulePath + '/highstock.js'
+      : modulePath + '/highcharts.js'
   });
   // create main element
   await page.setContent(`<div id="container"></div>`);
@@ -42,7 +48,7 @@ async function init(page: Page) {
   `) as EvaluateFn);
 }
 
-async function render(page: Page, options: HighchartsRenderOptions) {
+export async function render(page: Page, options: HighchartsRenderOptions) {
   await page.evaluate(new AsyncFunction('serializedConfig', `
     function deserialize(v) {
       return eval('(' + v + ')');
