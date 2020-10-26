@@ -100,6 +100,10 @@ export async function* iterableRender(exporter: Exporter, options: RenderOptions
     await exporter.init(page, options.init);
   }
 
+  if (typeof options.init.cb === 'function') {
+    await options.init.cb(page);
+  }
+
   if (options.charts instanceof Array) {
     for (const chartOptions of options.charts) {
       yield await renderIteration(chartOptions);
