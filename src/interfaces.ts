@@ -11,8 +11,9 @@ export interface RenderOptions {
 export interface InitOptions {
   width: number;
   height: number;
-  jsInject?: Array<ScriptTagOptions>;
   cb?: (page: Page) => void;
+  containerSelector?: string;
+  screenshotSelector?: string;
 }
 
 export interface ChartOptions {

@@ -28,12 +28,6 @@ export async function render(exporter: Exporter, options: RenderOptions) {
     deviceScaleFactor: 1,
   });
 
-  if (options.init.jsInject instanceof Array) {
-    for (const scriptOptions of options.init.jsInject) {
-      await page.addScriptTag(scriptOptions);
-    }
-  }
-
   const renderIteration = async (chartOptions: ChartOptions) => {
     try {
       await exporter.render(page, chartOptions, options.init);
@@ -81,12 +75,6 @@ export async function* iterableRender(exporter: Exporter, options: RenderOptions
     height: options.init.height,
     deviceScaleFactor: 1,
   });
-
-  if (options.init.jsInject instanceof Array) {
-    for (const scriptOptions of options.init.jsInject) {
-      await page.addScriptTag(scriptOptions);
-    }
-  }
 
   const renderIteration = async (chartOptions: ChartOptions) => {
     try {

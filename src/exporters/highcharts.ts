@@ -31,11 +31,14 @@ export interface HighchartsInitOptions extends InitOptions {
 export async function init(page: Page, init: HighchartsInitOptions) {
   await page.addScriptTag({
     path: init.highstock === true
-      ? modulePath + '/highstock.js'
-      : modulePath + '/highcharts.js'
+    ? modulePath + '/highstock.js'
+    : modulePath + '/highcharts.js'
   });
   // create main element
-  await page.setContent(`<div id="container"></div>`);
+  if ('containerSelector' in init === false) {
+    await page.setContent(`<div id="container"></div>`);
+  }
+
   // disable features needed for interactive usage
   await page.evaluate(new AsyncFunction(`
     Highcharts.setOptions({
@@ -48,20 +51,24 @@ export async function init(page: Page, init: HighchartsInitOptions) {
   `) as EvaluateFn);
 }
 
-export async function render(page: Page, options: HighchartsRenderOptions) {
-  await page.evaluate(new AsyncFunction('serializedConfig', `
+export async function render(page: Page, options: HighchartsRenderOptions, init: HighchartsInitOptions) {
+  const containerSelector = init.containerSelector || '#container';
+  const screenshotSelector = init.screenshotSelector || containerSelector;
+
+  await page.evaluate(new AsyncFunction('serializedConfig', 'containerSelector', `
     function deserialize(v) {
       return eval('(' + v + ')');
     }
 
+    const renderTo = document.querySelector(containerSelector);
     const config = deserialize(serializedConfig);
-    Highcharts.chart('container', config);
-  `) as EvaluateFn, serialize(options.config));
+    Highcharts.chart(renderTo, config);
+  `) as EvaluateFn, serialize(options.config), containerSelector);
 
-  const containerElem = await page.$('.highcharts-container');
+  const containerElem = await page.$(screenshotSelector);
 
   if (containerElem === null) {
-    throw new Error('No container element exists');
+    throw new Error('No screenshot element exists');
   }
 
   return await containerElem.screenshot({ 
