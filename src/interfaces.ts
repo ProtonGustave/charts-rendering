@@ -20,6 +20,8 @@ export interface ChartOptions {
   file: {
     path: string;
   };
+  preRenderCb?: (page: Page) => void;
+  postRenderCb?: (page: Page) => void;
   config: any;
 }
 

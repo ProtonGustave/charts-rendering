@@ -38,10 +38,18 @@ export async function* iterableRender(exporter: Exporter, options: RenderOptions
   });
 
   const renderIteration = async (chartOptions: ChartOptions) => {
+    if (chartOptions.preRenderCb !== void 0) {
+      chartOptions.preRenderCb(page);
+    }
+
     try {
       return await exporter.render(page, chartOptions, options.init);
     } catch (err) {
       console.error('Error throwed while rendering chart', err);
+    }
+
+    if (chartOptions.postRenderCb !== void 0) {
+      chartOptions.postRenderCb(page);
     }
   };
 
