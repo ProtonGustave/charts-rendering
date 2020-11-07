@@ -39,7 +39,7 @@ async function init(page: Page) {
   `) as EvaluateFn);
 }
 
-async function render(page: Page, options: ChartjsRenderOptions, initOptions: InitOptions) {
+async function render(page: Page, options: ChartjsRenderOptions, init: InitOptions) {
   const containerElem = await page.$('#container');
 
   if (containerElem === null) {
@@ -53,13 +53,20 @@ async function render(page: Page, options: ChartjsRenderOptions, initOptions: In
     new Chart(ctx, chart);
   `) as EvaluateFn,
     options.config as JSONObject,
-    options.chartWidth || initOptions.width,
-    options.chartHeight || initOptions.height);
+    options.chartWidth || init.width,
+    options.chartHeight || init.height);
 
-  await containerElem.screenshot({ 
-    omitBackground: true,
-    ...options.file,
-  });
+  if (init.pdf === true) {
+    return await page.pdf({
+      ...options.file,
+    });
+  }
+  else {
+    return await containerElem.screenshot({ 
+      omitBackground: true,
+      ...options.file,
+    });
+  }
 }
 
 export default {

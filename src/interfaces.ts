@@ -14,6 +14,7 @@ export interface InitOptions {
   cb?: (page: Page) => void;
   containerSelector?: string;
   screenshotSelector?: string;
+  pdf?: boolean;
 }
 
 export interface ChartOptions {

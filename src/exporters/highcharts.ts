@@ -71,10 +71,17 @@ export async function render(page: Page, options: HighchartsRenderOptions, init:
     throw new Error('No screenshot element exists');
   }
 
-  return await containerElem.screenshot({ 
-    omitBackground: true,
-    ...options.file,
-  });
+  if (init.pdf === true) {
+    return await page.pdf({
+      ...options.file,
+    });
+  }
+  else {
+    return await containerElem.screenshot({ 
+      omitBackground: true,
+      ...options.file,
+    });
+  }
 }
 
 export default {
