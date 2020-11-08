@@ -53,7 +53,7 @@ export async function init(page: Page, init: HighchartsInitOptions) {
 
 export async function render(page: Page, options: HighchartsRenderOptions, init: HighchartsInitOptions) {
   const containerSelector = init.containerSelector || '#container';
-  const screenshotSelector = init.screenshotSelector || containerSelector;
+  const screenshotSelector = init.screenshotSelector || '.highcharts-container';
 
   await page.evaluate(new AsyncFunction('serializedConfig', 'containerSelector', `
     function deserialize(v) {
