@@ -33,7 +33,7 @@ async function init(page: Page) {
   await page.setContent(`<canvas id="container"></canvas>`);
   // disable features needed for interactive usage
   await page.evaluate(new AsyncFunction(`
-    Object.assign(Chart.defaults, {
+    Object.assign(Chart.defaults.global, {
       animation: false,
       responsive: false,
     });
@@ -90,11 +90,11 @@ async function render(page: Page, options: ChartjsRenderOptions, init: InitOptio
     });
   }
 
-  if (process.env.NODE_ENV !== 'chartdev') {
-    await page.evaluate(new AsyncFunction(
-      `window.currentChart.destroy()`
-    ) as EvaluateFn);
-  }
+  // if (process.env.NODE_ENV !== 'chartdev') {
+  //   await page.evaluate(new AsyncFunction(
+  //     `window.currentChart.destroy()`
+  //   ) as EvaluateFn);
+  // }
 
   return result;
 }
