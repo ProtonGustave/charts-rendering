@@ -1,6 +1,6 @@
 {
   "name": "charts-rendering",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "author": "Sergey Kazantsev",
   "main": "dist/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "chart.js": "^2.9.3",
+    "chart.js": "^3.5.1",
     "get-value": "^3.0.1",
     "highcharts": "^8.1.2",
     "puppeteer": "^5.2.1",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^5.0.2",
-    "@types/chart.js": "^2.9.23",
+    "@types/chart.js": "^2.9.34",
     "@types/get-value": "^3.0.1",
     "@types/puppeteer": "^3.0.1",
     "@types/serialize-javascript": "^4.0.0",

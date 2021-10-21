@@ -12,6 +12,7 @@ import {
   JSONObject,
   EvaluateFn
 } from 'puppeteer';
+import serialize from 'serialize-javascript';
 
 const modulePath = path.dirname(require.resolve('chart.js'));
 
@@ -40,21 +41,40 @@ async function init(page: Page) {
 }
 
 async function render(page: Page, options: ChartjsRenderOptions, init: InitOptions) {
-  const containerElem = await page.$('#container');
+  const containerSelector = init.containerSelector || '#container';
+  const screenshotSelector = init.screenshotSelector || '#container';
+
+  await page.evaluate(
+    new AsyncFunction(
+      'serializedConfig',
+      'containerSelector',
+      'width',
+      'height',
+      `
+      function deserialize(v) {
+        return eval('(' + v + ')');
+      }
+
+      const renderTo = document.querySelector(containerSelector);
+      const config = deserialize(serializedConfig);
+
+      renderTo.width = width;
+      renderTo.height = height;
+
+      new Chart(renderTo, config);
+      `
+    ) as EvaluateFn,
+    serialize(options.config),
+    containerSelector,
+    options.chartWidth || init.width,
+    options.chartHeight || init.height
+  );
+
+  const containerElem = await page.$(screenshotSelector);
 
   if (containerElem === null) {
     throw new Error('No container element exists');
   }
-
-  await page.evaluate(new AsyncFunction('chart', 'width', 'height', `
-    const ctx = document.getElementById('container');
-    ctx.width = width;
-    ctx.height = height;
-    new Chart(ctx, chart);
-  `) as EvaluateFn,
-    options.config as JSONObject,
-    options.chartWidth || init.width,
-    options.chartHeight || init.height);
 
   if (init.pdf === true) {
     return await page.pdf({
