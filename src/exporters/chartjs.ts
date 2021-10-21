@@ -16,10 +16,6 @@ import serialize from 'serialize-javascript';
 
 const modulePath = path.dirname(require.resolve('chart.js'));
 
-console.log("HERE WE GO");
-
-console.log(require.resolve('chart.js'));
-
 export interface ChartjsRenderOptions extends ChartOptions {
   config: ChartConfiguration;
   chartWidth?: number;
