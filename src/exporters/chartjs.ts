@@ -27,7 +27,7 @@ const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 // TODO: solve mangle issue more elegantly
 async function init(page: Page) {
   await page.addScriptTag({
-    path: modulePath + '/Chart.min.js',
+    path: modulePath + '/chart.min.js',
   });
   // create main element
   await page.setContent(`<canvas id="container"></canvas>`);

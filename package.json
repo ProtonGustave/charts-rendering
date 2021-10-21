@@ -2,7 +2,11 @@
   "name": "charts-rendering",
   "version": "1.0.22",
   "author": "Sergey Kazantsev",
-  "main": "dist/index.js",
+  "main": "dist",
+  "exports": {
+    ".": "./dist/index.js",
+    "./exporters/*": "./dist/exporters/*"
+  },
   "scripts": {
     "prepublish": "rollup -c",
     "build": "rollup -c",
@@ -16,9 +20,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "chart.js": "^3.5.1",
     "get-value": "^3.0.1",
-    "highcharts": "^8.1.2",
     "puppeteer": "^5.2.1",
     "serialize-javascript": "^4.0.0",
     "set-value": "^3.0.2"
@@ -30,6 +32,8 @@
     "@types/puppeteer": "^3.0.1",
     "@types/serialize-javascript": "^4.0.0",
     "@types/set-value": "^2.0.0",
+    "chart.js": "^3.5.1",
+    "highcharts": "^9.2.2",
     "rollup": "^2.23.1",
     "rollup-plugin-typescript2": "^0.27.2",
     "tslint": "^6.1.3",
