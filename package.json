@@ -1,6 +1,6 @@
 {
   "name": "charts-rendering",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "author": "Sergey Kazantsev",
   "main": "dist/index.js",
   "scripts": {
