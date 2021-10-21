@@ -31,7 +31,7 @@ const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 // TODO: solve mangle issue more elegantly
 async function init(page: Page) {
   await page.addScriptTag({
-    path: modulePath + '/chart.min.js',
+    path: modulePath + '/Chart.min.js',
   });
   // create main element
   await page.setContent(`<canvas id="container"></canvas>`);
@@ -94,9 +94,11 @@ async function render(page: Page, options: ChartjsRenderOptions, init: InitOptio
     });
   }
 
-  await page.evaluate(new AsyncFunction(
-    `window.currentChart.destroy()`
-  ) as EvaluateFn);
+  if (process.env.NODE_ENV !== 'chartdev') {
+    await page.evaluate(new AsyncFunction(
+      `window.currentChart.destroy()`
+    ) as EvaluateFn);
+  }
 
   return result;
 }
