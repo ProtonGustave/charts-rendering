@@ -2,6 +2,10 @@
 import typescript from 'rollup-plugin-typescript2';
 
 export default {
+  external: [
+    'chart.js',
+    'highcharts',
+  ],
 	input: {
     'index': './src/index.ts',
     'exporters/chartjs': './src/exporters/chartjs.ts',

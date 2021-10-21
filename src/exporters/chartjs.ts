@@ -1,4 +1,4 @@
-import { Chart } from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
 import path from 'path';
 import {
   RenderOptions,
@@ -16,8 +16,12 @@ import serialize from 'serialize-javascript';
 
 const modulePath = path.dirname(require.resolve('chart.js'));
 
+console.log("HERE WE GO");
+
+console.log(require.resolve('chart.js'));
+
 export interface ChartjsRenderOptions extends ChartOptions {
-  config: Chart.ChartConfiguration;
+  config: ChartConfiguration;
   chartWidth?: number;
   chartHeight?: number;
 }
@@ -33,7 +37,7 @@ async function init(page: Page) {
   await page.setContent(`<canvas id="container"></canvas>`);
   // disable features needed for interactive usage
   await page.evaluate(new AsyncFunction(`
-    Object.assign(Chart.defaults.global, {
+    Object.assign(Chart.defaults, {
       animation: false,
       responsive: false,
     });
@@ -61,7 +65,7 @@ async function render(page: Page, options: ChartjsRenderOptions, init: InitOptio
       renderTo.width = width;
       renderTo.height = height;
 
-      new Chart(renderTo, config);
+      window.currentChart = new Chart(renderTo, config);
       `
     ) as EvaluateFn,
     serialize(options.config),
@@ -76,17 +80,25 @@ async function render(page: Page, options: ChartjsRenderOptions, init: InitOptio
     throw new Error('No container element exists');
   }
 
+  let result;
+
   if (init.pdf === true) {
-    return await page.pdf({
+    result = await page.pdf({
       ...options.file,
     });
   }
   else {
-    return await containerElem.screenshot({ 
+    result = await containerElem.screenshot({ 
       omitBackground: true,
       ...options.file,
     });
   }
+
+  await page.evaluate(new AsyncFunction(
+    `window.currentChart.destroy()`
+  ) as EvaluateFn);
+
+  return result;
 }
 
 export default {
